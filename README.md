@@ -2,7 +2,9 @@
 
 Container image (Caddy + config) that redirects
 `https://nemousu.live-on.net/bbs/search?identifier=...`
-to `https://nemousu.pages.dev/?id=...`.
+to `https://nemousu.pages.dev/?id=...`, and
+`https://nemousu.live-on.net/oekaki?identifier=...`
+to `https://nemousu.pages.dev/oekaki?id=...`.
 
 ## Build & Run
 
@@ -22,6 +24,7 @@ HTTPS endpoints respond with a permanent redirect to
 first, ensuring clients immediately land on the Pages URL.
 
 For local smoke tests, hit
-`curl -I "http://127.0.0.1/bbs/search?identifier=fDWFMWbqMU"`. HTTPS
-tests require the real hostname and a public certificate, so they only
-succeed once the container is deployed behind `nemousu.live-on.net`.
+`curl -I "http://127.0.0.1/bbs/search?identifier=fDWFMWbqMU"` or
+`curl -I "http://127.0.0.1/oekaki?identifier=FAkyOQE6z1"`. HTTPS tests
+require the real hostname and a public certificate, so they only succeed
+once the container is deployed behind `nemousu.live-on.net`.
