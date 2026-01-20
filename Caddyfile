@@ -1,0 +1,27 @@
+http://{$SITE_HOST:nemousu.live-on.net} {
+
+    @searchWithIdentifier {
+        path /bbs/search
+        query identifier=*
+    }
+
+    handle @searchWithIdentifier {
+        redir https://nemousu.pages.dev/?id={query.identifier} permanent
+    }
+
+    respond "not found" 404
+}
+
+https://{$SITE_HOST:nemousu.live-on.net} {
+
+    @searchWithIdentifier {
+        path /bbs/search
+        query identifier=*
+    }
+
+    handle @searchWithIdentifier {
+        redir https://nemousu.pages.dev/?id={query.identifier} permanent
+    }
+
+    respond "not found" 404
+}
