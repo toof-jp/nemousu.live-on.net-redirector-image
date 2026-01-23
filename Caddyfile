@@ -1,4 +1,9 @@
-http://{$SITE_HOST:nemousu.live-on.net} {
+(common_redirects) {
+    # Extract the raw (still percent-encoded) identifier value once so it can be reused below.
+    map {query_escaped} {identifier_raw} {
+        ~(?:^|.*&)identifier=([^&]+)(?:&|$) ${1}
+        default ""
+    }
 
     @searchWithIdentifier {
         path /bbs/search
@@ -11,35 +16,20 @@ http://{$SITE_HOST:nemousu.live-on.net} {
     }
 
     handle @searchWithIdentifier {
-        redir https://nemousu.pages.dev/?id={query.identifier} permanent
+        redir https://nemousu.pages.dev/?id={identifier_raw} permanent
     }
 
     handle @oekakiWithIdentifier {
-        redir https://nemousu.pages.dev/oekaki?id={query.identifier} permanent
+        redir https://nemousu.pages.dev/oekaki?id={identifier_raw} permanent
     }
 
     respond "not found" 404
 }
 
+http://{$SITE_HOST:nemousu.live-on.net} {
+    import common_redirects
+}
+
 https://{$SITE_HOST:nemousu.live-on.net} {
-
-    @searchWithIdentifier {
-        path /bbs/search
-        query identifier=*
-    }
-
-    @oekakiWithIdentifier {
-        path /oekaki
-        query identifier=*
-    }
-
-    handle @searchWithIdentifier {
-        redir https://nemousu.pages.dev/?id={query.identifier} permanent
-    }
-
-    handle @oekakiWithIdentifier {
-        redir https://nemousu.pages.dev/oekaki?id={query.identifier} permanent
-    }
-
-    respond "not found" 404
+    import common_redirects
 }

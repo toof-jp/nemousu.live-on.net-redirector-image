@@ -5,6 +5,9 @@ Container image (Caddy + config) that redirects
 to `https://nemousu.pages.dev/?id=...`, and
 `https://nemousu.live-on.net/oekaki?identifier=...`
 to `https://nemousu.pages.dev/oekaki?id=...`.
+The redirector extracts the identifier from the raw (still escaped)
+query string, so reserved characters like `+` stay percent-encoded in the
+outgoing URL.
 
 ## Build & Run
 
@@ -25,6 +28,8 @@ first, ensuring clients immediately land on the Pages URL.
 
 For local smoke tests, hit
 `curl -I "http://127.0.0.1/bbs/search?identifier=fDWFMWbqMU"` or
-`curl -I "http://127.0.0.1/oekaki?identifier=FAkyOQE6z1"`. HTTPS tests
+`curl -I "http://127.0.0.1/oekaki?identifier=FAkyOQE6z1"`. For plus
+signs or other reserved characters, percent-encode them (e.g.
+`identifier=abc%2Bdef`). HTTPS tests
 require the real hostname and a public certificate, so they only succeed
 once the container is deployed behind `nemousu.live-on.net`.
