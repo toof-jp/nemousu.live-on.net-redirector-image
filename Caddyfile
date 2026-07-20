@@ -1,6 +1,6 @@
 (common_redirects) {
     # Extract the raw (still percent-encoded) identifier value once so it can be reused below.
-    map {query_escaped} {identifier_raw} {
+    map {http.request.uri.query} {identifier_raw} {
         ~(?:^|.*&)identifier=([^&]+)(?:&|$) ${1}
         default ""
     }
